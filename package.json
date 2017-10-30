@@ -1,0 +1,16 @@
+{
+  "name": "assg.js",
+  "version": "0.0.0",
+  "description": "",
+  "main": "controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^4.12.5",
+    "nodemon": "^1.12.1"
+  }
+}
