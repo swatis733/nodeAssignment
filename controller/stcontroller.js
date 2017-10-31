@@ -71,12 +71,12 @@ exports.postuniv = function (req, res) {    //Postuniversity function post data 
 }
 
 exports.getuser = function (req, res) {
-    User.find({}, function (err, response) {
+    User.find({}, function (err, saher) {
         if (err) {
             return res.json(req, res, err);
         }
 
-        res.json(response);
+        res.json(saher);
     })
 }
 
@@ -113,11 +113,24 @@ exports.searchSt= function(req,res){
 
   exports.getuniversity = function(req,res){    
       var unireg=req.params.university_id;
-      var univ = Student.find({university_id:unireg})  
-       univ.exec(function (err, response) {   
-  if (err) return res.send(err);       
-   res.json(response);  
-  });
+      University.findOne({university_id:unireg}).exec()
+      .then(function(university){
+          var result=[];
+          result.push(university);
+       return Student.find({university_id:university.university_id}).exec()
+       .then(function(student){
+           var name=student.map(item=> {return item.st_name;});
+           result.push(name);
+           return result;
+       })
+      })
+      .then(function(result){    
+            res.json(result);  
+  })      
+  .then(undefined, function(err){      
+          res.send(err);
+      }
+    )
 }
 
 
