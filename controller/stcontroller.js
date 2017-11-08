@@ -101,14 +101,27 @@ exports.getuniv = function (req, res) {
 }
 
 exports.searchSt= function(req,res){
-    var stream = req.params.stream
-    return Student.find({stream: stream},function(error,response){
-        if(error){
-          res.json(error);
-        }
-        res.json(response);
+    var stream = req.params.stream;
+     Student.find({stream: stream}).exec()
+    .then(function(student){
+        var result=[];
+        //result.push(student);
+        
+    student.map(item=> {
+         User.findOne({user_id:item.st_id}).exec()
+        .then(function(user)
+    {
+     result.push(user.user_name);
+     console.log("Result" +result);   
     })
-  }
+    }); console.log(result);
+    return result;    
+    }).then(function(result){
+        res.json(result);
+    }).then(undefined,function(err){
+        res.send(err);
+    }) 
+}
 
 
   exports.getuniversity = function(req,res){    
